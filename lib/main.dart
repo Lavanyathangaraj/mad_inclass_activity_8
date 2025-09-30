@@ -4,19 +4,43 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDarkMode = false;
+
+  void toggleTheme() {
+    setState(() {
+      _isDarkMode = !_isDarkMode;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: FadingTextAnimation(),
+    return MaterialApp(
+      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      home: FadingTextAnimation(
+        isDarkMode: _isDarkMode,
+        onToggleTheme: toggleTheme,
+      ),
     );
   }
 }
 
 class FadingTextAnimation extends StatefulWidget {
-  const FadingTextAnimation({super.key});
+  final bool isDarkMode;
+  final VoidCallback onToggleTheme;
+
+  const FadingTextAnimation({
+    super.key,
+    required this.isDarkMode,
+    required this.onToggleTheme,
+  });
 
   @override
   _FadingTextAnimationState createState() => _FadingTextAnimationState();
@@ -36,6 +60,12 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Fading Text Animation'),
+        actions: [
+          IconButton(
+            icon: Icon(widget.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+            onPressed: widget.onToggleTheme,
+          ),
+        ],
       ),
       body: Center(
         child: AnimatedOpacity(
