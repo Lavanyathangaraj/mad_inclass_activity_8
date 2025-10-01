@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,11 +65,47 @@ class FadingTextAnimation extends StatefulWidget {
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
+  Color _textColor = const Color.fromARGB(255, 17, 126, 214);
 
   void toggleVisibility() {
     setState(() {
       _isVisible = !_isVisible;
     });
+  }
+
+  void _showColorPicker() {
+    Color pickerColor = _textColor;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Pick a text color'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: pickerColor,
+              onColorChanged: (color) {
+                pickerColor = color;
+              },
+              enableAlpha: false,
+              labelTypes: const [],
+              pickerAreaHeightPercent: 0.8,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _textColor = pickerColor;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Select'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -81,6 +118,10 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
             icon: Icon(widget.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
             onPressed: widget.onToggleTheme,
           ),
+          IconButton(
+            icon: const Icon(Icons.color_lens),
+            onPressed: _showColorPicker,
+          ),
         ],
       ),
       body: Center(
@@ -88,9 +129,9 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           opacity: _isVisible ? 1.0 : 0.0,
           duration: widget.duration,
           curve: Curves.easeInOut,
-          child: const Text(
+          child: Text(
             'Hello, Flutter!',
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 24, color: _textColor),
           ),
         ),
       ),
