@@ -65,7 +65,7 @@ class FadingTextAnimation extends StatefulWidget {
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
-  Color _textColor = const Color.fromARGB(255, 15, 139, 240);
+  Color _textColor = const Color.fromARGB(255, 12, 121, 210);
 
   void toggleVisibility() {
     setState(() {
@@ -130,8 +130,8 @@ class _FadingTextAnimationState extends State<FadingTextAnimation> {
           duration: widget.duration,
           curve: Curves.easeInOut,
           child: Text(
-            'Hello, Flutter!',
-            style: TextStyle(fontSize: 24, color: _textColor),
+            'HELLO, FLUTTER!',
+            style: TextStyle(fontSize: 28, color: _textColor),
           ),
         ),
       ),
