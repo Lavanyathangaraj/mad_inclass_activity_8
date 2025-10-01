@@ -65,7 +65,7 @@ class FadingTextAnimation extends StatefulWidget {
 
 class _FadingTextAnimationState extends State<FadingTextAnimation> {
   bool _isVisible = true;
-  Color _textColor = const Color.fromARGB(255, 17, 126, 214);
+  Color _textColor = const Color.fromARGB(255, 15, 139, 240);
 
   void toggleVisibility() {
     setState(() {
